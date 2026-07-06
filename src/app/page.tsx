@@ -6,6 +6,7 @@ import { useTripPlan } from "@/lib/tripPlan";
 import HeroBanner from "@/components/HeroBanner";
 import StickyNav from "@/components/StickyNav";
 import DaySection from "@/components/DaySection";
+import ParksSection from "@/components/ParksSection";
 import CoffeeSection from "@/components/CoffeeSection";
 import NotesSection from "@/components/NotesSection";
 
@@ -28,6 +29,7 @@ export default function Home() {
         />
       ))}
 
+      <ParksSection directionsMode={state.directionsMode} />
       <CoffeeSection directionsMode={state.directionsMode} />
       <NotesSection />
     </main>

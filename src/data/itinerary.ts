@@ -35,6 +35,33 @@ export const trip = {
   hotel: "Sheraton Cavalier Calgary Hotel",
   hotelMapContext: "Calgary, Alberta",
   coffeeImage: "https://images.unsplash.com/photo-1485808191679-5f86510681a2",
+  parksImage: "https://images.unsplash.com/photo-1673434737111-193cfaa58f75",
+  parksIntro:
+    "Prince's Island Park is already on Day 3 — these are additional options if the group wants more green space or a change of pace from downtown.",
+  parks: [
+    {
+      id: "park-bowness",
+      name: "Bowness Park",
+      tags: ["Lagoon", "Paddle boats"],
+      description:
+        "A historic riverside park in NW Calgary built around a shallow lagoon — paddle boats in summer, skating in winter.",
+    },
+    {
+      id: "park-nose-hill",
+      name: "Nose Hill Park",
+      tags: ["Prairie grassland", "Panoramic views"],
+      description:
+        "One of the largest urban parks in North America — open native grassland with sweeping views over the city, in north Calgary.",
+    },
+    {
+      id: "park-fish-creek",
+      name: "Fish Creek Provincial Park",
+      tags: ["River valley", "100+ km of trails"],
+      description:
+        "Canada's second-largest urban park, stretching along Fish Creek in south Calgary with over 100 km of walking and biking trails.",
+    },
+  ] satisfies Option[],
+  parksMapContext: "Calgary, Alberta",
   notes: [
     {
       icon: "📅",
@@ -296,6 +323,20 @@ export const days: DayPlan[] = [
         ],
       },
       {
+        id: "day3-stop-kensington",
+        travelFromPrevious: "walk",
+        options: [
+          {
+            id: "day3-stop-kensington-opt",
+            name: "Kensington Calgary",
+            tags: ["Neighborhood", "Cafes"],
+            duration: "~10 min walk via the Peace Bridge",
+            description:
+              "A walkable neighborhood full of independent cafes and restaurants, right across the Bow River from Prince's Island Park via the Peace Bridge.",
+          },
+        ],
+      },
+      {
         id: "day3-stop-zoo-or-heritage",
         travelFromPrevious: "drive",
         options: [
@@ -303,25 +344,14 @@ export const days: DayPlan[] = [
             id: "day3-stop-zoo",
             name: "Calgary Zoo",
             tags: ["Zoo"],
-            description: "Wilder Institute/Calgary Zoo, one of Canada's leading zoos.",
+            description: "Wilder Institute/Calgary Zoo, one of Canada's leading zoos, about 5 minutes from downtown.",
           },
           {
             id: "day3-stop-heritage-park",
             name: "Heritage Park Calgary",
             tags: ["Living history"],
-            description: "Canada's largest living-history village — an alternative to the zoo.",
-          },
-        ],
-      },
-      {
-        id: "day3-stop-kensington",
-        travelFromPrevious: "drive",
-        options: [
-          {
-            id: "day3-stop-kensington-opt",
-            name: "Kensington Calgary",
-            tags: ["Neighborhood", "Cafes"],
-            description: "A walkable neighborhood full of independent cafes and restaurants.",
+            description:
+              "Canada's largest living-history village — an alternative to the zoo, about 15 minutes south of downtown.",
           },
         ],
       },
@@ -331,7 +361,7 @@ export const days: DayPlan[] = [
         id: "day3-lunch-flexible",
         tags: ["Flexible"],
         description:
-          "Grab something quick near the park, or wait and explore Kensington's cafes before the evening.",
+          "Grab something quick near the park, or wait a few minutes and explore Kensington's cafes right after crossing the Peace Bridge.",
       },
     ],
     dinner: [

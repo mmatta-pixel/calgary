@@ -11,7 +11,13 @@ interface StickyNavProps {
   onAudienceChange: (audience: Audience) => void;
 }
 
-const sectionIds = [...days.map((d) => `day-${d.day}`), "coffee"];
+const navItems = [
+  ...days.map((day) => ({ id: `day-${day.day}`, label: `Day ${day.day}` })),
+  { id: "parks", label: "Parks" },
+  { id: "coffee", label: "Coffee & Notes" },
+];
+
+const sectionIds = navItems.map((item) => item.id);
 
 export default function StickyNav({ audience, onAudienceChange }: StickyNavProps) {
   const { state, setDirectionsMode } = useTripPlan();
@@ -42,29 +48,19 @@ export default function StickyNav({ audience, onAudienceChange }: StickyNavProps
     <div className="sticky top-0 z-20 bg-cream/95 backdrop-blur-sm border-b border-border">
       <div className="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
         <nav className="flex flex-wrap gap-2">
-          {days.map((day) => (
+          {navItems.map((item) => (
             <a
-              key={day.day}
-              href={`#day-${day.day}`}
+              key={item.id}
+              href={`#${item.id}`}
               className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${
-                active === `day-${day.day}`
+                active === item.id
                   ? "bg-forest text-cream border-forest"
                   : "border-border text-muted hover:bg-forest/10"
               }`}
             >
-              Day {day.day}
+              {item.label}
             </a>
           ))}
-          <a
-            href="#coffee"
-            className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${
-              active === "coffee"
-                ? "bg-forest text-cream border-forest"
-                : "border-border text-muted hover:bg-forest/10"
-            }`}
-          >
-            Coffee & Notes
-          </a>
         </nav>
         <div className="flex flex-wrap items-center gap-4 text-xs text-muted">
           <div className="flex items-center gap-2">
