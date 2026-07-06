@@ -9,13 +9,13 @@ interface AudienceToggleProps {
 
 export default function AudienceToggle({ audience, onChange }: AudienceToggleProps) {
   return (
-    <div className="inline-flex rounded-full border border-gray-300 p-1 text-sm">
+    <div className="inline-flex rounded-full border border-border p-1 text-sm bg-card">
       {(["solo", "group"] as const).map((option) => (
         <button
           key={option}
           onClick={() => onChange(option)}
-          className={`px-4 py-1 rounded-full capitalize transition-colors ${
-            audience === option ? "bg-black text-white" : "text-gray-600 hover:bg-gray-100"
+          className={`px-4 py-1 rounded-full capitalize transition-colors cursor-pointer ${
+            audience === option ? "bg-terracotta text-cream" : "text-muted hover:bg-terracotta/10"
           }`}
         >
           {option}

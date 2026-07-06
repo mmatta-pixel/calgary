@@ -15,19 +15,24 @@ export default function MealSection({ title, options, mapContext, audience }: Me
 
   return (
     <div className="flex flex-col gap-2">
-      <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500">{title}</h3>
+      <h3 className="font-serif text-sm font-semibold uppercase tracking-wide text-forest">
+        {title}
+      </h3>
       <div className="flex flex-col gap-3">
         {visible.map((option, i) => (
-          <div key={option.name ?? i} className="border rounded-lg p-3 flex flex-col gap-1.5">
+          <div
+            key={option.name ?? i}
+            className="border border-border bg-card rounded-lg p-3 flex flex-col gap-1.5 border-l-4 border-l-terracotta shadow-sm"
+          >
             {option.name && (
               <PlaceLink
                 place={option.name}
                 context={mapContext}
                 label={option.name}
-                className="font-medium text-blue-700 hover:underline w-fit"
+                className="font-medium text-terracotta-dark hover:underline w-fit"
               />
             )}
-            <p className="text-sm text-gray-700 leading-relaxed">{option.description}</p>
+            <p className="text-sm text-ink/80 leading-relaxed">{option.description}</p>
           </div>
         ))}
       </div>

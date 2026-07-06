@@ -13,7 +13,7 @@ export default function PlaceLink({ place, context, label, className }: PlaceLin
       href={mapUrl(place, context)}
       target="_blank"
       rel="noopener noreferrer"
-      className={className ?? "inline-flex items-center gap-1 text-xs text-blue-700 hover:underline"}
+      className={className ?? "inline-flex items-center gap-1 text-xs text-terracotta-dark hover:underline"}
     >
       📍 {label ?? place}
     </a>
