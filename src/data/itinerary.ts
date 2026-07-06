@@ -20,6 +20,8 @@ export interface Stop {
 export interface DayPlan {
   day: number;
   title: string;
+  blurb: string;
+  images: string[];
   mapContext: string;
   stops: Stop[];
   lunch: Option[];
@@ -27,14 +29,28 @@ export interface DayPlan {
 }
 
 export const trip = {
-  title: "Calgary Trip Itinerary",
+  title: "Calgary",
   subtitle: "4 Days — Food, Hikes, Architecture & Scenery",
+  heroImage: "https://images.unsplash.com/photo-1667316543034-7ec99d160a12",
   hotel: "Sheraton Cavalier Calgary Hotel",
   hotelMapContext: "Calgary, Alberta",
+  coffeeImage: "https://images.unsplash.com/photo-1485808191679-5f86510681a2",
   notes: [
-    "Reservations recommended well in advance: Sauvage, Satsuki, and Ten Foot Henry are all popular enough to warrant booking 2–4 weeks out.",
-    "Driving: Both Banff and Canmore are best reached by car; renting one for the Rockies days is recommended.",
-    "Travel-mode badges are general guidance based on typical distances, not measured directions for your exact hotel room — double check with the map before you head out.",
+    {
+      icon: "📅",
+      title: "Reservations",
+      body: "Sauvage, Satsuki, and Ten Foot Henry are all popular enough to warrant booking 2–4 weeks out.",
+    },
+    {
+      icon: "🚗",
+      title: "Driving",
+      body: "Both Banff and Canmore are best reached by car; renting one for the Rockies days is recommended.",
+    },
+    {
+      icon: "🧭",
+      title: "Travel-mode badges",
+      body: "General guidance based on typical distances, not measured directions for your exact hotel room — double check on the map before you head out.",
+    },
   ],
   coffeeShops: [
     {
@@ -69,6 +85,8 @@ export const days: DayPlan[] = [
   {
     day: 1,
     title: "Downtown Calgary",
+    blurb: "Towers, street art, live music, and a historic avenue — a full day in the city centre.",
+    images: ["https://images.unsplash.com/photo-1606688323650-7c1e51d7959f"],
     mapContext: "Calgary, Alberta",
     stops: [
       {
@@ -174,6 +192,11 @@ export const days: DayPlan[] = [
   {
     day: 2,
     title: "Banff (Hikes & Scenery)",
+    blurb: "Waterfalls, canyon walks, and mountain views in the heart of the Rockies.",
+    images: [
+      "https://images.unsplash.com/photo-1533587032585-7c78bbeef622",
+      "https://images.unsplash.com/photo-1627673584068-599a852e37fc",
+    ],
     mapContext: "Banff, Alberta",
     stops: [
       {
@@ -253,6 +276,11 @@ export const days: DayPlan[] = [
   {
     day: 3,
     title: "Parks, Culture & Kensington",
+    blurb: "Riverside parks, culture, and an afternoon in Calgary's most walkable neighborhood.",
+    images: [
+      "https://images.unsplash.com/photo-1760268125932-0f1231a1b8f7",
+      "https://images.unsplash.com/photo-1764505878812-25a1c735fe88",
+    ],
     mapContext: "Calgary, Alberta",
     stops: [
       {
@@ -329,6 +357,8 @@ export const days: DayPlan[] = [
   {
     day: 4,
     title: "Canmore",
+    blurb: "A quieter, more scenic alternative to Banff, built around turquoise alpine lakes.",
+    images: ["https://images.unsplash.com/photo-1527095655060-4026c4af2b25"],
     mapContext: "Canmore, Alberta",
     stops: [
       {

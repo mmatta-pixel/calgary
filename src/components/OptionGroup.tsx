@@ -13,6 +13,7 @@ interface OptionGroupProps {
   audience?: Audience;
   planKey: string;
   directionsMode: TravelMode;
+  layout?: "list" | "grid";
 }
 
 export default function OptionGroup({
@@ -22,6 +23,7 @@ export default function OptionGroup({
   audience,
   planKey,
   directionsMode,
+  layout = "list",
 }: OptionGroupProps) {
   const { state, togglePick, toggleChecked } = useTripPlan();
 
@@ -38,7 +40,7 @@ export default function OptionGroup({
           {title}
         </h3>
       )}
-      <div className="flex flex-col gap-3">
+      <div className={layout === "grid" ? "grid sm:grid-cols-2 gap-3" : "flex flex-col gap-3"}>
         {visible.map((option) => {
           const picked = state.picks[planKey] === option.id;
           const done = !!state.checked[option.id];
