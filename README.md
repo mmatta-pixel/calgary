@@ -1,18 +1,15 @@
 # calgary
 
-A website for generating and editing customized travel itineraries. Enter a destination,
-dates, interests, and budget to get an AI-generated day-by-day itinerary, then edit it
-directly (reorder, add, or remove activities and days).
+An interactive showcase site for a 4-day Calgary trip itinerary — day-by-day
+navigation, solo vs. group dinner picks, and map links for every place.
 
 ## Getting started
 
 ```bash
 npm install
-cp .env.local.example .env.local # add your ANTHROPIC_API_KEY
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
 
-Itineraries are currently saved to the browser's local storage only — there is no
-account system or backend database yet.
+The itinerary content lives in [`src/data/itinerary.ts`](src/data/itinerary.ts).
