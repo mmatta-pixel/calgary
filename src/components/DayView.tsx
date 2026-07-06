@@ -3,8 +3,9 @@
 import type { Audience, DayPlan } from "@/data/itinerary";
 import type { TravelMode } from "@/lib/maps";
 import { useTripPlan } from "@/lib/tripPlan";
-import ScheduleTimeline from "@/components/ScheduleTimeline";
-import MealSection from "@/components/MealSection";
+import DayMap from "@/components/DayMap";
+import StopsList from "@/components/StopsList";
+import OptionGroup from "@/components/OptionGroup";
 import DayIllustration from "@/components/illustrations/DayIllustration";
 
 interface DayViewProps {
@@ -17,7 +18,7 @@ export default function DayView({ day, audience, directionsMode }: DayViewProps)
   const { state, setNote } = useTripPlan();
 
   const trackedIds = [
-    ...day.schedule.map((b) => b.id),
+    ...day.stops.flatMap((stop) => stop.options.map((o) => o.id)),
     ...day.lunch.map((o) => o.id),
     ...day.dinner.map((o) => o.id),
   ];
@@ -44,15 +45,22 @@ export default function DayView({ day, audience, directionsMode }: DayViewProps)
         </div>
       </div>
 
-      <ScheduleTimeline schedule={day.schedule} mapContext={day.mapContext} directionsMode={directionsMode} />
-      <MealSection
+      <DayMap day={day} />
+
+      <StopsList
+        stops={day.stops}
+        mapContext={day.mapContext}
+        directionsMode={directionsMode}
+        day={day.day}
+      />
+      <OptionGroup
         title="Lunch"
         options={day.lunch}
         mapContext={day.mapContext}
         planKey={`${day.day}-lunch`}
         directionsMode={directionsMode}
       />
-      <MealSection
+      <OptionGroup
         title="Dinner"
         options={day.dinner}
         mapContext={day.mapContext}

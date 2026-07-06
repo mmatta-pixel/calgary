@@ -1,36 +1,29 @@
 export type Audience = "solo" | "group";
+export type RecommendedMode = "walk" | "drive";
 
-export interface ScheduleBlock {
-  id: string;
-  time: string;
-  description: string;
-  places: string[];
-  tags?: string[];
-  duration?: string;
-}
-
-export interface MealOption {
+export interface Option {
   id: string;
   name?: string;
   description: string;
-  audience?: Audience;
   tags?: string[];
+  duration?: string;
   bookAhead?: boolean;
+  audience?: Audience;
+}
+
+export interface Stop {
+  id: string;
+  travelFromPrevious: RecommendedMode;
+  options: Option[];
 }
 
 export interface DayPlan {
   day: number;
   title: string;
   mapContext: string;
-  schedule: ScheduleBlock[];
-  lunch: MealOption[];
-  dinner: MealOption[];
-}
-
-export interface Place {
-  id: string;
-  name: string;
-  description: string;
+  stops: Stop[];
+  lunch: Option[];
+  dinner: Option[];
 }
 
 export const trip = {
@@ -41,6 +34,7 @@ export const trip = {
   notes: [
     "Reservations recommended well in advance: Sauvage, Satsuki, and Ten Foot Henry are all popular enough to warrant booking 2–4 weeks out.",
     "Driving: Both Banff and Canmore are best reached by car; renting one for the Rockies days is recommended.",
+    "Travel-mode badges are general guidance based on typical distances, not measured directions for your exact hotel room — double check with the map before you head out.",
   ],
   coffeeShops: [
     {
@@ -66,7 +60,7 @@ export const trip = {
       name: "Waves Coffee House (Sunridge)",
       description: "A dependable, straightforward option for a quick coffee and pastry.",
     },
-  ] satisfies Place[],
+  ] satisfies Option[],
   coffeeContext: "near the Sheraton Cavalier Calgary Hotel",
   coffeeMapContext: "Calgary, Alberta",
 } as const;
@@ -76,30 +70,69 @@ export const days: DayPlan[] = [
     day: 1,
     title: "Downtown Calgary",
     mapContext: "Calgary, Alberta",
-    schedule: [
+    stops: [
       {
-        id: "day1-morning",
-        time: "Morning",
-        places: ["Calgary Tower"],
-        tags: ["Landmark", "Views"],
-        description:
-          "Calgary Tower — panoramic city views, including a glass-floor observation deck.",
+        id: "day1-stop-calgary-tower",
+        travelFromPrevious: "drive",
+        options: [
+          {
+            id: "day1-stop-calgary-tower-opt",
+            name: "Calgary Tower",
+            tags: ["Landmark", "Views"],
+            description:
+              "Panoramic city views, including a glass-floor observation deck.",
+          },
+        ],
       },
       {
-        id: "day1-midday",
-        time: "Midday",
-        places: ["Stephen Avenue Walk", "Wonderland Sculpture Calgary", "Simmons Building Calgary"],
-        tags: ["Architecture", "Public art", "Walkable"],
-        description:
-          "Stephen Avenue Walk, the Wonderland Sculpture (a striking 12-metre wire-mesh installation), and the Simmons Building, a beautifully restored historic riverside warehouse.",
+        id: "day1-stop-stephen-ave",
+        travelFromPrevious: "walk",
+        options: [
+          {
+            id: "day1-stop-stephen-ave-opt",
+            name: "Stephen Avenue Walk",
+            tags: ["Walkable", "Historic"],
+            description:
+              "A pedestrian promenade through the heart of downtown, lined with shops, cafes, and historic sandstone buildings.",
+          },
+        ],
       },
       {
-        id: "day1-afternoon",
-        time: "Afternoon",
-        places: ["Studio Bell"],
-        tags: ["Museum", "Music"],
-        description:
-          "Studio Bell, home of the National Music Centre — five floors covering the history of Canadian music.",
+        id: "day1-stop-wonderland",
+        travelFromPrevious: "walk",
+        options: [
+          {
+            id: "day1-stop-wonderland-opt",
+            name: "Wonderland Sculpture",
+            tags: ["Public art"],
+            description: "A striking 12-metre wire-mesh sculpture, one of downtown's best-known public artworks.",
+          },
+        ],
+      },
+      {
+        id: "day1-stop-simmons",
+        travelFromPrevious: "walk",
+        options: [
+          {
+            id: "day1-stop-simmons-opt",
+            name: "Simmons Building",
+            tags: ["Architecture", "Riverside"],
+            description: "A beautifully restored historic riverside warehouse.",
+          },
+        ],
+      },
+      {
+        id: "day1-stop-studio-bell",
+        travelFromPrevious: "walk",
+        options: [
+          {
+            id: "day1-stop-studio-bell-opt",
+            name: "Studio Bell",
+            tags: ["Museum", "Music"],
+            description:
+              "Home of the National Music Centre — five floors covering the history of Canadian music.",
+          },
+        ],
       },
     ],
     lunch: [
@@ -142,22 +175,44 @@ export const days: DayPlan[] = [
     day: 2,
     title: "Banff (Hikes & Scenery)",
     mapContext: "Banff, Alberta",
-    schedule: [
+    stops: [
       {
-        id: "day2-morning",
-        time: "Morning",
-        places: ["Johnston Canyon"],
-        tags: ["Hike", "Waterfalls"],
-        duration: "~2 hrs round trip",
-        description:
-          "Johnston Canyon — a scenic canyon walkway leading to a series of waterfalls, roughly two hours round trip.",
+        id: "day2-stop-johnston-canyon",
+        travelFromPrevious: "drive",
+        options: [
+          {
+            id: "day2-stop-johnston-canyon-opt",
+            name: "Johnston Canyon",
+            tags: ["Hike", "Waterfalls"],
+            duration: "~2 hrs round trip",
+            description:
+              "A scenic canyon walkway leading to a series of waterfalls, roughly two hours round trip.",
+          },
+        ],
       },
       {
-        id: "day2-afternoon",
-        time: "Afternoon",
-        places: ["Bow Falls Viewpoint", "Banff Avenue"],
-        tags: ["Views", "Walkable"],
-        description: "Bow Falls Viewpoint and a wander down Banff Avenue.",
+        id: "day2-stop-bow-falls",
+        travelFromPrevious: "drive",
+        options: [
+          {
+            id: "day2-stop-bow-falls-opt",
+            name: "Bow Falls Viewpoint",
+            tags: ["Views"],
+            description: "A scenic viewpoint over the Bow River falls, right by Banff townsite.",
+          },
+        ],
+      },
+      {
+        id: "day2-stop-banff-avenue",
+        travelFromPrevious: "walk",
+        options: [
+          {
+            id: "day2-stop-banff-avenue-opt",
+            name: "Banff Avenue",
+            tags: ["Walkable", "Shopping"],
+            description: "A wander down Banff's main street, lined with shops and restaurants.",
+          },
+        ],
       },
     ],
     lunch: [
@@ -199,29 +254,48 @@ export const days: DayPlan[] = [
     day: 3,
     title: "Parks, Culture & Kensington",
     mapContext: "Calgary, Alberta",
-    schedule: [
+    stops: [
       {
-        id: "day3-morning",
-        time: "Morning",
-        places: ["Prince's Island Park"],
-        tags: ["Park", "Easy walk"],
-        description:
-          "Prince's Island Park — a riverside park in the heart of downtown, ideal for an easy walk.",
+        id: "day3-stop-princes-island",
+        travelFromPrevious: "drive",
+        options: [
+          {
+            id: "day3-stop-princes-island-opt",
+            name: "Prince's Island Park",
+            tags: ["Park", "Easy walk"],
+            description: "A riverside park in the heart of downtown, ideal for an easy walk.",
+          },
+        ],
       },
       {
-        id: "day3-midday",
-        time: "Midday",
-        places: ["Calgary Zoo", "Heritage Park Calgary"],
-        tags: ["Zoo", "Living history"],
-        description:
-          "Wilder Institute/Calgary Zoo or Heritage Park (Canada's largest living-history village), depending on preference.",
+        id: "day3-stop-zoo-or-heritage",
+        travelFromPrevious: "drive",
+        options: [
+          {
+            id: "day3-stop-zoo",
+            name: "Calgary Zoo",
+            tags: ["Zoo"],
+            description: "Wilder Institute/Calgary Zoo, one of Canada's leading zoos.",
+          },
+          {
+            id: "day3-stop-heritage-park",
+            name: "Heritage Park Calgary",
+            tags: ["Living history"],
+            description: "Canada's largest living-history village — an alternative to the zoo.",
+          },
+        ],
       },
       {
-        id: "day3-evening",
-        time: "Evening",
-        places: ["Kensington Calgary"],
-        tags: ["Neighborhood", "Cafes"],
-        description: "Kensington, a walkable neighborhood full of independent cafes and restaurants.",
+        id: "day3-stop-kensington",
+        travelFromPrevious: "drive",
+        options: [
+          {
+            id: "day3-stop-kensington-opt",
+            name: "Kensington Calgary",
+            tags: ["Neighborhood", "Cafes"],
+            description: "A walkable neighborhood full of independent cafes and restaurants.",
+          },
+        ],
       },
     ],
     lunch: [
@@ -256,14 +330,19 @@ export const days: DayPlan[] = [
     day: 4,
     title: "Canmore",
     mapContext: "Canmore, Alberta",
-    schedule: [
+    stops: [
       {
-        id: "day4-allday",
-        time: "All day",
-        places: ["Grassi Lakes"],
-        tags: ["Hike", "Alpine lakes"],
-        description:
-          "A quieter, more scenic alternative to Banff. Consider the Grassi Lakes trail for an easy hike to turquoise alpine lakes.",
+        id: "day4-stop-grassi-lakes",
+        travelFromPrevious: "drive",
+        options: [
+          {
+            id: "day4-stop-grassi-lakes-opt",
+            name: "Grassi Lakes",
+            tags: ["Hike", "Alpine lakes"],
+            description:
+              "A quieter, more scenic alternative to Banff. Consider the Grassi Lakes trail for an easy hike to turquoise alpine lakes.",
+          },
+        ],
       },
     ],
     lunch: [

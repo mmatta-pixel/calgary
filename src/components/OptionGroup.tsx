@@ -1,39 +1,43 @@
 "use client";
 
-import type { Audience, MealOption } from "@/data/itinerary";
+import type { Audience, Option } from "@/data/itinerary";
 import type { TravelMode } from "@/lib/maps";
 import { useTripPlan } from "@/lib/tripPlan";
 import PlaceActions from "@/components/PlaceActions";
 import TagList from "@/components/TagList";
 
-interface MealSectionProps {
-  title: string;
-  options: MealOption[];
+interface OptionGroupProps {
+  title?: string;
+  options: Option[];
   mapContext: string;
   audience?: Audience;
   planKey: string;
   directionsMode: TravelMode;
 }
 
-export default function MealSection({
+export default function OptionGroup({
   title,
   options,
   mapContext,
   audience,
   planKey,
   directionsMode,
-}: MealSectionProps) {
+}: OptionGroupProps) {
   const { state, togglePick, toggleChecked } = useTripPlan();
 
   const visible = audience
     ? options.filter((option) => !option.audience || option.audience === audience)
     : options;
 
+  const allowPick = options.length > 1;
+
   return (
     <div className="flex flex-col gap-2">
-      <h3 className="font-serif text-sm font-semibold uppercase tracking-wide text-forest">
-        {title}
-      </h3>
+      {title && (
+        <h3 className="font-serif text-sm font-semibold uppercase tracking-wide text-forest">
+          {title}
+        </h3>
+      )}
       <div className="flex flex-col gap-3">
         {visible.map((option) => {
           const picked = state.picks[planKey] === option.id;
@@ -64,7 +68,7 @@ export default function MealSection({
                     <TagList tags={option.tags} />
                   </span>
                 </label>
-                {option.name && (
+                {allowPick && option.name && (
                   <button
                     onClick={() => togglePick(planKey, option.id)}
                     className={`text-lg leading-none shrink-0 cursor-pointer ${
@@ -80,10 +84,11 @@ export default function MealSection({
               <p className={`text-sm leading-relaxed ${done ? "text-muted" : "text-ink/80"}`}>
                 {option.description}
               </p>
+              {option.duration && <span className="text-[11px] text-muted">⏱ {option.duration}</span>}
               {option.name && (
                 <PlaceActions place={option.name} context={mapContext} directionsMode={directionsMode} />
               )}
-              {picked && (
+              {allowPick && picked && (
                 <span className="text-xs font-medium text-terracotta-dark">✓ Your pick</span>
               )}
             </div>
