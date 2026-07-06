@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { days, trip, type Audience } from "@/data/itinerary";
+import { useTripPlan } from "@/lib/tripPlan";
 import DayView from "@/components/DayView";
 import CoffeeAndNotes from "@/components/CoffeeAndNotes";
 import AudienceToggle from "@/components/AudienceToggle";
+import DirectionsModeToggle from "@/components/DirectionsModeToggle";
 import HeroScene from "@/components/illustrations/HeroScene";
 
 type Tab = number | "coffee";
@@ -12,6 +14,7 @@ type Tab = number | "coffee";
 export default function Home() {
   const [tab, setTab] = useState<Tab>(days[0].day);
   const [audience, setAudience] = useState<Audience>("group");
+  const { state, setDirectionsMode } = useTripPlan();
 
   return (
     <main className="min-h-screen flex flex-col items-center gap-8 pb-16">
@@ -50,18 +53,28 @@ export default function Home() {
         </button>
       </div>
 
-      {tab !== "coffee" && (
-        <div className="flex items-center gap-3 text-sm text-muted px-6">
-          <span>Dinner picks for:</span>
-          <AudienceToggle audience={audience} onChange={setAudience} />
+      <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted px-6">
+        {tab !== "coffee" && (
+          <div className="flex items-center gap-3">
+            <span>Dinner picks for:</span>
+            <AudienceToggle audience={audience} onChange={setAudience} />
+          </div>
+        )}
+        <div className="flex items-center gap-3">
+          <span>Directions:</span>
+          <DirectionsModeToggle mode={state.directionsMode} onChange={setDirectionsMode} />
         </div>
-      )}
+      </div>
 
-      <div className="w-full max-w-2xl px-6">
+      <div key={tab} className="w-full max-w-2xl px-6 animate-fade-in">
         {tab === "coffee" ? (
-          <CoffeeAndNotes />
+          <CoffeeAndNotes directionsMode={state.directionsMode} />
         ) : (
-          <DayView day={days.find((d) => d.day === tab)!} audience={audience} />
+          <DayView
+            day={days.find((d) => d.day === tab)!}
+            audience={audience}
+            directionsMode={state.directionsMode}
+          />
         )}
       </div>
     </main>
